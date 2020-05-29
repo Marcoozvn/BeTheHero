@@ -1,82 +1,109 @@
-import React, { useState, useEffect } from 'react';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { View, FlatList, Image, Text, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react'
+import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import { View, FlatList, Image, Text, TouchableOpacity, Switch } from 'react-native'
+import { ThemeContext } from '../../contexts/ThemeContext'
 
-import api from '../../services/api';
-
+import api from '../../services/api'
 import logoImg from '../../assets/logo.png'
-
-import styles from './styles';
+import styles from './styles'
 
 export default function Incidents() {
-  const [incidents, setIncidents] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [incidents, setIncidents] = useState([])
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [style, setStyle] = useState({})
+  const { theme, changeTheme } = useContext(ThemeContext)
 
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   useEffect(() => {
-    loadIncidents();
-  }, []);
+    loadIncidents()
+  }, [])
+
+  useEffect(() => {
+    if (theme === 'light') {
+      const myStyle = styles('#f0f0f5', '#13131a', '#737380', '#41414d', '#fff')
+      setStyle(myStyle)
+    } else {
+      const myStyle = styles('#111', '#fff', '#dcdce6', '#fff', '#222')
+      setStyle(myStyle)
+    }
+  }, [theme])
 
   async function loadIncidents() {
     if (loading) {
-      return;
+      return
     }
 
     if (total > 0 && incidents.length === total) {
-      return;
+      return
     }
 
-    setLoading(true);
-    const response = await api.get(`incidents?page=${page}`);
+    setLoading(true)
+    const response = await api.get(`incidents?page=${page}`)
 
-    setIncidents([...incidents, ...response.data]);
-    setPage(page + 1);
-    setTotal(response.headers['x-total-count']);
-    setLoading(false);
+    setIncidents([...incidents, ...response.data])
+    setPage(page + 1)
+    setTotal(response.headers['x-total-count'])
+    setLoading(false)
   }
 
   function navigateToDetail(incident) {
-    navigation.navigate('Detail', { incident });
+    navigation.navigate('Detail', { incident })
+  }
+
+  function handleToogle() {
+    if (theme == 'light') {
+      changeTheme('dark')
+    } else {
+      changeTheme('light')
+    }
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={style.container}>
+      <View style={style.header}>
         <Image source={logoImg}/>
-        <Text style={styles.headerText}>
-          Total de <Text style={styles.headerTextBold}>{total} caso(s)</Text>.
-        </Text>
+        <View style={style.headerRight}>
+          <Switch
+          style={style.switch}
+          trackColor={{ false: "#767577", true: "#81b0ff" }}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={handleToogle}
+          value={theme == 'light' ? true : false}/>
+          <Text style={style.headerText}>
+            Tema <Text style={style.headerTextBold}>{theme == 'light' ? 'Light' : 'Dark'}</Text>
+          </Text>
+        </View>
       </View>
 
-      <Text style={styles.title}>Bem-vindo!</Text>
-      <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
+      <Text style={style.title}>Bem-vindo!</Text>
+      <Text style={style.description}>Escolha um dos casos abaixo e salve o dia.</Text>
 
       <FlatList 
-        style={styles.incidentList}
+        style={style.incidentList}
         data={incidents}
         keyExtractor={incident => String(incident.id)}
         showsVerticalScrollIndicator={false}
         onEndReached={loadIncidents}
         onEndReachedThreshold={0.2}
         renderItem={({ item: incident }) => (
-          <View style={styles.incident}>
-            <Text style={styles.incidentProperty}>ONG:</Text>
-            <Text style={styles.incidentValue}>{incident.name}</Text>
+          <View style={style.incident}>
+            <Text style={style.incidentProperty}>ONG:</Text>
+            <Text style={style.incidentValue}>{incident.name}</Text>
             
-            <Text style={styles.incidentProperty}>CASO:</Text>
-            <Text style={styles.incidentValue}>{incident.title}</Text>
+            <Text style={style.incidentProperty}>CASO:</Text>
+            <Text style={style.incidentValue}>{incident.title}</Text>
 
-            <Text style={styles.incidentProperty}>VALOR:</Text>
-            <Text style={styles.incidentValue}>
+            <Text style={style.incidentProperty}>VALOR:</Text>
+            <Text style={style.incidentValue}>
               {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(incident.value)}
             </Text>
 
-            <TouchableOpacity style={styles.detailsButton} onPress={() => navigateToDetail(incident)}>
-              <Text style={styles.detailsButtonText}>Ver mais detalhes</Text>
+            <TouchableOpacity style={style.detailsButton} onPress={() => navigateToDetail(incident)}>
+              <Text style={style.detailsButtonText}>Ver mais detalhes</Text>
               <Feather name='arrow-right' size={16} color='#E02041'/>
             </TouchableOpacity>
           </View>

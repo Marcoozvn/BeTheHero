@@ -1,47 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react'
+import { ThemeContext } from '../../contexts/ThemeContext'
+import logoImg from '../../assets/logo.svg'
+import { Link, useHistory } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
+import api from '../../services/api'
 
-import logoImg from '../../assets/logo.svg';
-import { Link, useHistory } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
-import api from '../../services/api';
-
-import './styles.css';
+import './styles.css'
 
 export default function Register() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [city, setCity] = useState('');
-  const [uf, setUF] = useState('');
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
+  const [city, setCity] = useState('')
+  const [uf, setUF] = useState('')
 
-  const history = useHistory();
+  const { theme } = useContext(ThemeContext)
+  const history = useHistory()
 
   async function handleRegister(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    const data = { name, email, whatsapp, city, uf };
+    const data = { name, email, whatsapp, city, uf }
 
     try {
-      const response = await api.post('ongs', data);
-      localStorage.setItem('id', response.data.id);
-      alert('Cadastro realizado com sucesso');
-      history.push('/');
+      const response = await api.post('ongs', data)
+      localStorage.setItem('id', response.data.id)
+      alert('Cadastro realizado com sucesso')
+      history.push('/')
     } catch (error) {
-      alert('Erro no cadastro');      
+      alert('Erro no cadastro')      
     }
   }
 
   return (
-    <div className="register-container">
+    <div className={`register-container ${theme}`}>
       <div className="content">
         <section>
           <img src={logoImg} alt="Logo"/>
           <h1>Cadastro</h1>
-          <p>Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os cados da sua ONG.</p>
+          <p>Faça seu cadastro, entre na plataforma e ajude pessoas a encontrarem os dados da sua ONG.</p>
 
           <Link className="back-link" to="/">
             <FiArrowLeft size={16} color="#E02041"/>
-            Não tenho cadastro
+            Já tenho cadastro
           </Link>
         </section>
 

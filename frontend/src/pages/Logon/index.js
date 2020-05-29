@@ -1,40 +1,42 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FiLogIn } from 'react-icons/fi';
+import React, { useState, useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { FiLogIn } from 'react-icons/fi'
+import { ThemeContext } from '../../contexts/ThemeContext'
 
-import api from '../../services/api';
+import api from '../../services/api'
 
-import './styles.css';
+import './styles.css'
 
-import heroesImg from '../../assets/heroes.png';
-import logoImg from '../../assets/logo.svg';
+import heroesImg from '../../assets/heroes.png'
+import logoImg from '../../assets/logo.svg'
 
 export default function Logon() {
-  const [id, setId] = useState('');
-  const history = useHistory();
+  const [id, setId] = useState('')
+  const history = useHistory()
+  const { theme } = useContext(ThemeContext)
 
   async function handleLogin(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const response = await api.post('/sessions', { id });
+      const response = await api.post('/sessions', { id })
       
-      localStorage.setItem('ongId', id);
-      localStorage.setItem('name', response.data.name);
+      localStorage.setItem('ongId', id)
+      localStorage.setItem('name', response.data.name)
 
-      history.push('/profile');
+      history.push('/profile')
     } catch (error) {
-      alert('Falha no login, tente novamente.');
+      alert('Falha no login, tente novamente.')
     }
   }
 
   return (
-    <div className="logon-container">
+    <div className={`logon-container ${theme}`}>
       <section className="form">
-        <img src={logoImg} alt="Logo"/>
+        <img src={logoImg} alt="Logo" className="heroes-logo"/>
 
         <form onSubmit={handleLogin}>
-          <h1>Faça seu logon</h1>
+          <h1>Faça seu login</h1>
           <input type="text" placeholder="Sua ID" value={id} onChange={e => setId(e.target.value)}/>
           <button className="button" type="submit">Entrar</button>
 
@@ -44,7 +46,7 @@ export default function Logon() {
           </Link>
         </form>
       </section>
-      <img src={heroesImg} alt="Heroes"/>
+      <img src={heroesImg} alt="Heroes" className="heroes-image"/>
     </div>
   )
 }

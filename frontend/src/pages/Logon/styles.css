@@ -1,12 +1,16 @@
 .logon-container {
-  width: 100%;
-  max-width: 1120px;
-  height: 100vh;
-  margin: 0 auto;
-
+  height: 100vh;  
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.heroes-logo {
+  width: 150px;
+}
+
+.heroes-image {
+  width: 520px;
 }
 
 .logon-container section.form {
@@ -20,19 +24,26 @@
 }
 
 .logon-container section.form form h1 {
-  font-size: 32px;
-  margin-bottom: 28px;
+  font-size: 24px;
+  margin-bottom: 24px;
 }
 
 .logon-container section.form form a {
   display: flex;
   align-items: center;
   margin-top: 40px;
-  color: #41414d;
   font-size: 18px;
   text-decoration: none;
   font-weight: 500;
   transition: opacity 0.2s;
+}
+
+.logon-container.dark section.form form a {
+  color: rgba(255, 255, 255, 0.707)
+}
+
+.logon-container.light section.form form a {
+  color: #41414d;
 }
 
 .logon-container section.form form a svg {

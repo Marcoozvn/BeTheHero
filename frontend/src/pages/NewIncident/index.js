@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react'
 
-import api from '../../services/api';
+import { ThemeContext } from '../../contexts/ThemeContext'
+import api from '../../services/api'
 
-import logoImg from '../../assets/logo.svg';
-import { Link, useHistory } from 'react-router-dom';
-import { FiArrowLeft } from 'react-icons/fi';
+import logoImg from '../../assets/logo.svg'
+import { Link, useHistory } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
 
-import './styles.css';
+import './styles.css'
 
 export default function NewIncident() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [value, setValue] = useState('');
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [value, setValue] = useState('')
 
-  const history = useHistory();
+  const { theme } = useContext(ThemeContext)
+  const history = useHistory()
 
-  const ongId = localStorage.getItem('ongId');
+  const ongId = localStorage.getItem('ongId')
 
   async function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     
     try {
       await api.post('/incidents', { title, description, value }, 
@@ -26,16 +28,16 @@ export default function NewIncident() {
         headers: {
           Authorization: ongId
         }
-      });
+      })
 
-      history.push('/profile');
+      history.push('/profile')
     } catch (error) {
       alert('Algo deu errado!')
     }
   }
 
   return (
-    <div className="new-incident-container">
+    <div className={`new-incident-container ${theme}`}>
       <div className="content">
         <section>
           <img src={logoImg} alt="Logo"/>
@@ -58,5 +60,5 @@ export default function NewIncident() {
         </form>
       </div>
     </div>
-  );
+  )
 }

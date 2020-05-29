@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { FiPower, FiTrash2 } from 'react-icons/fi';
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import { FiPower, FiTrash2 } from 'react-icons/fi'
 
-import api from '../../services/api';
+import { ThemeContext } from '../../contexts/ThemeContext'
+import api from '../../services/api'
 
-import './styles.css';
+import './styles.css'
 
-import logoImg from '../../assets/logo.svg';
+import logoImg from '../../assets/logo.svg'
 
 export default function Profile() {
-  const [incidents, setIncidents] = useState([]);
-  const history = useHistory();
+  const [incidents, setIncidents] = useState([])
+  const history = useHistory()
+  const { theme } = useContext(ThemeContext)
 
-  const ongId = localStorage.getItem('ongId');
-  const ongName = localStorage.getItem('name');
+  const ongId = localStorage.getItem('ongId')
+  const ongName = localStorage.getItem('name')
 
 
   useEffect(() => {
-    fetchIncidents();
-  }, []);
+    fetchIncidents()
+  }, [])
   
   async function fetchIncidents() {
     try {
@@ -26,11 +28,11 @@ export default function Profile() {
         headers: {
           Authorization: ongId
         }
-      });
+      })
 
-      setIncidents(response.data);
+      setIncidents(response.data)
     } catch (error) {
-      alert('Algo deu errado');        
+      alert('Algo deu errado')        
     }
   }
   async function handleDelete(id) {
@@ -41,19 +43,19 @@ export default function Profile() {
         }
       })
 
-      setIncidents(incidents.filter(incident => incident.id !== id));
+      setIncidents(incidents.filter(incident => incident.id !== id))
     } catch (error) {
       alert('Algo deu errado')
     }
   }
 
   function handleLogout() {
-    localStorage.clear();
-    history.push('/');
+    localStorage.clear()
+    history.push('/')
   }
 
   return (
-    <div className="profile-container">
+    <div className={`profile-container ${theme}`}>
       <header>
         <img src={logoImg} alt="Logo" />
         <span>Bem vinda, {ongName}</span>
@@ -85,5 +87,5 @@ export default function Profile() {
         ))}
       </ul>
     </div>
-  );
+  )
 }

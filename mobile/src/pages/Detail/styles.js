@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
 
-export default StyleSheet.create({
+const styles = (backgroundColor, titleColor, textColor, incidentTitleColor, cardBackgroundColor) => StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: Constants.statusBarHeight + 20,
+    backgroundColor: backgroundColor
   },
 
   header: {
@@ -17,14 +18,14 @@ export default StyleSheet.create({
   incident: {
     padding: 24,
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: cardBackgroundColor,
     marginBottom: 16,
     marginTop: 48
   },
 
   incidentProperty: {
     fontSize: 14,
-    color: '#41414d',
+    color: incidentTitleColor,
     fontWeight: 'bold',
     marginTop: 24,
   },
@@ -32,26 +33,26 @@ export default StyleSheet.create({
   incidentValue: {
     marginTop: 8,
     fontSize: 15,
-    color: '#737380'
+    color: textColor
   },
 
   contactBox: {
     padding: 24,
     borderRadius: 8,
-    backgroundColor: '#FFF',
+    backgroundColor: cardBackgroundColor,
     marginBottom: 16
   },
 
   heroTitle: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: '#13131a',
+    color: titleColor,
     lineHeight: 30
   },
 
   heroDescription: {
     fontSize: 15,
-    color: '#737380',
+    color: textColor,
     marginTop: 16
   },
 
@@ -76,3 +77,5 @@ export default StyleSheet.create({
     fontWeight: 'bold'
   }
 })
+
+export default styles
