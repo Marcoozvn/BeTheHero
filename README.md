@@ -2,7 +2,7 @@
 
 ![GIF](https://drive.google.com/uc?export=view&id=1PmqGFwY7riZKGWPVk_FKp1-J-knTcNR2)
 
-O BeTheHero é uma aplicação criada na Semana Omnistack usando as tecnologias React, React Native e Nodejs. A aplicação tem o objetivo de conectar ONG's com possíveis colaboradores. A ONG pode cadastrar um incidente, e os usuários podem entrar em contato com a ONG para ajudar no caso. Além da Semana Ominstack, adicionei um Theme Switcher utilizando a Context API do React para aprender mais sobre a utilização da API. 
+O BeTheHero é uma aplicação criada na Semana Omnistack usando as tecnologias React, React Native e Nodejs. A aplicação tem o objetivo de conectar ONG's com possíveis colaboradores. A ONG pode cadastrar um incidente, e os usuários podem entrar em contato com a ONG para ajudar no caso. Além da semana omnistack, refiz a aplicação utilizando Typescript e migrei a aplicação para utilizar Styled Components. Aproveitei a biblioteca do Styled Components e a Context API do React para implementar um Theme Switcher (Dark/Light).
 
 ## Cliente web
 
